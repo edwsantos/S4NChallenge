@@ -9,8 +9,7 @@ This project was developed using the following:
 * **Junit 5** as a testing library
 
 ## Branch strategy
-I used branch-by-feature in order to simplify the branch strategy and avoid creating unnecessary branches.  
-Every merge to master was considered as a new release so it was tagged correspondingly.
+I used branch-by-feature in order to simplify the branch strategy and avoid creating unnecessary branches.
 
 ## Business conditions
 * There are 20 drones available
