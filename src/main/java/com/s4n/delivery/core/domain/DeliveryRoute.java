@@ -13,10 +13,14 @@ public class DeliveryRoute {
     private final String routeCode;
 
     public Optional<Coordinate> getDeliveryCoordinate() {
+        Optional<Coordinate> coordinate = Optional.empty();
         if (hasRouteCode() && isRouteCodeCorrect()) {
-            return Optional.of(transformRouteCodeToCoordinate());
+            final Coordinate c = transformRouteCodeToCoordinate();
+            if (c.isCoordinateWithinDeliveryArea()) {
+                coordinate = Optional.of(c);
+            }
         }
-        return Optional.empty();
+        return coordinate;
     }
 
     private boolean hasRouteCode() {
@@ -35,39 +39,39 @@ public class DeliveryRoute {
         return coordinate;
     }
 
-    private Coordinate applyMovementToCoordinate(Coordinate coordinate, char c) {
+    private Coordinate applyMovementToCoordinate(final Coordinate coordinate, final char c) {
         switch (c) {
             case 'A':
                 if (CardinalDirection.N.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withY(coordinate.getY() + 1);
+                    return coordinate.withY(coordinate.getY() + 1);
                 } else if (CardinalDirection.S.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withY(coordinate.getY() - 1);
+                    return coordinate.withY(coordinate.getY() - 1);
                 } else if (CardinalDirection.E.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withX(coordinate.getX() + 1);
+                    return coordinate.withX(coordinate.getX() + 1);
                 } else if (CardinalDirection.W.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withX(coordinate.getX() - 1);
+                    return coordinate.withX(coordinate.getX() - 1);
                 }
                 break;
             case 'I':
                 if (CardinalDirection.N.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withCardinalDirection(CardinalDirection.W);
+                    return coordinate.withCardinalDirection(CardinalDirection.W);
                 } else if (CardinalDirection.S.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withCardinalDirection(CardinalDirection.E);
+                    return coordinate.withCardinalDirection(CardinalDirection.E);
                 } else if (CardinalDirection.E.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withCardinalDirection(CardinalDirection.N);
+                    return coordinate.withCardinalDirection(CardinalDirection.N);
                 } else if (CardinalDirection.W.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withCardinalDirection(CardinalDirection.S);
+                    return coordinate.withCardinalDirection(CardinalDirection.S);
                 }
                 break;
             case 'D':
                 if (CardinalDirection.N.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withCardinalDirection(CardinalDirection.E);
+                    return coordinate.withCardinalDirection(CardinalDirection.E);
                 } else if (CardinalDirection.S.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withCardinalDirection(CardinalDirection.W);
+                    return coordinate.withCardinalDirection(CardinalDirection.W);
                 } else if (CardinalDirection.E.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withCardinalDirection(CardinalDirection.S);
+                    return coordinate.withCardinalDirection(CardinalDirection.S);
                 } else if (CardinalDirection.W.equals(coordinate.getCardinalDirection())) {
-                    coordinate = coordinate.withCardinalDirection(CardinalDirection.N);
+                    return coordinate.withCardinalDirection(CardinalDirection.N);
                 }
                 break;
         }
